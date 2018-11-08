@@ -2,5 +2,9 @@
     /* add CSS here */
 }
 .pet {
-    /* add CSS here */
+    border: chocolate;
+    border-style: dotted;
+    border-radius: 30px;
+    box-shadow: 10px 15px 3px 0px rgba(189,182,189,0.41);
+    cursor: none;
 }
