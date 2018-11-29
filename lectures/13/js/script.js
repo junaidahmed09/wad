@@ -19,6 +19,20 @@ var questions = [{
         "for",
         "none of the above"],
     correctAnswer : 1
+},{
+    question : "What element tag is used to bold the text?",
+    choices : [ "&lt;p&gt;",
+        "&lt;em&gt;",
+        "&lt;b&gt;",
+        "&lt;h1&gt;"],
+    correctAnswer : 3
+},{
+    question : "What symbol is used for class in HTML?",
+    choices : [".",
+        "#",
+        "?",
+        "/"],
+    correctAnswer : 2
 }];
 
 var currentQuestion = 0;
@@ -27,11 +41,27 @@ var quizOver = false;
 displayCurrentQuestion();
 document.getElementById("quiz-message").style.display = 'none';
 function displayNext() {
-    /*Write your code here */
+    currentQuestion++;
+    if(currentQuestion==questions.length)
+        displayScore();
+    displayCurrentQuestion();
 }
 
 function displayCurrentQuestion() {
-    /*Write your code here */
+    var index;
+    var answer = document.getElementById('choice-list')
+    var ques = document.getElementById('question');
+    ques.innerText = questions[currentQuestion].question;
+
+    answer.innerHTML = "";
+
+    for(index = 0; index < questions[currentQuestion].choices.length;index++)
+    {
+       answer.innerHTML += "<li>" +  "<input type='radio' name='choice1' value='questions[currentQuestion].choices[index]'>" + questions[currentQuestion].choices[index]  + "</li>"
+    }
+
+    var corrAns = questions[currentQuestion].correctAnswer;
+
 }
 
 function resetQuiz() {
