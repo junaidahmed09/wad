@@ -1,107 +1,81 @@
-var bank = {
-    depositAmount : 0,
-    withdrawAmount : 0,
-    typeOfTransaction : 0,
-    error : 0,
-    totalBalance : 0
+var savingsAccount = {
+    title: 'Muhammad Ali',
+    balance: 962155,
+    currency: 'PKRS',
+    IBAN: 'PKN1234654321',
+    deposit: function addMoney(e,amount) {
+        if(e.keyCode === 13) {
+            if (!isNaN(amount) && parseInt(amount) > 0) {
+                savingsAccount.balance += parseInt(amount);
+                document.getElementById('deposit').value = '';
+                loadAccount();
+                savingsAccount.printTransactions('Credit', amount);
+            }else {
+                document.getElementById("deposit-msg").style.color = "red";
+                document.getElementById("deposit-msg").innerText = "Enter Valid Amount";
+            }
+        }
+    },
+    withdraw: function removeMoney(e,amount) {
+        if(e.keyCode === 13) {
+            if (!isNaN(amount) && parseInt(amount) > 0) {
+                var verifyBalance = savingsAccount.balance - parseInt(amount);
+                if(verifyBalance >= 0) {
+                    savingsAccount.balance -= parseInt(amount);
+                    document.getElementById('withdraw').value = '';
+                    loadAccount();
+                    savingsAccount.printTransactions('Debit', amount);
+                }
+                else {
+                    document.getElementById("withdraw-msg").style.color = "orange";
+                    document.getElementById("withdraw-msg").innerText = "Don't have sufficient amount in account ";
+                }
+            }else {
+                document.getElementById("withdraw-msg").style.color = "red";
+                document.getElementById("withdraw-msg").innerText = "Enter Valid Amount";
+            }
+        }
+    },
+    printTransactions: function print(tType, amount){
+        var table = document.getElementById("transaction-table");
+        var row = document.createElement("tr");
+        var dateTd = document.createElement("td");
+        var d = new Date();
+        d = month[d.getMonth()] + ' '+d.getDate() +', '+d.getFullYear()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds();
+        dateTd.innerHTML = d;
+        var typeTd = document.createElement("td");
+        typeTd.innerHTML = tType;
+        var amountTd = document.createElement("td");
+        amountTd.innerHTML = amount;
+        row.appendChild(dateTd);
+        row.appendChild(typeTd);
+        row.appendChild(amountTd);
+        table.appendChild(row);
+    }
 };
 
-function setAccountTitle () {
-    var name = document.getElementById("title");
-    name.innerText = "Junaid Ahmed";
+loadAccount();
+function loadAccount() {
+    var title = document.getElementById('title');
+    var balance = document.getElementById('balance');
+    var currency = document.getElementById('currency');
+    var IBAN = document.getElementById('IBAN');
+    title.innerHTML = savingsAccount.title;
+    balance.innerHTML = savingsAccount.balance;
+    currency.innerHTML = savingsAccount.currency;
+    IBAN.innerHTML = savingsAccount.IBAN;
 }
 
-function setAccountBalance () {
-    var bal = document.getElementById("balance");
-    if(bank.totalBalance === 0)
-    {
-        bal.innerText = "NIL";
-    }
-    else
-    {
-        bal.innerText = bank.totalBalance;
-    }
-}
-
-function setCurrency () {
-    var curr = document.getElementById("currency");
-    curr.innerText = "PKR";
-}
-
-function setIBAN () {
-    var IBAN_Num = document.getElementById("IBAN");
-    IBAN_Num.innerText = "PKN123456789";
-}
-
-function getDeposit () {
-    document.getElementById("deposit-msg").innerText = "";
-    bank.depositAmount = document.getElementById("deposit").value;
-    bank.typeOfTransaction = "credit";
-    if (event.which === 13 || event.key === 'Enter')
-    {
-        bank.depositAmount = parseInt(document.getElementById("deposit").value);
-        if(!isNaN(bank.depositAmount)){
-            bank.totalBalance += bank.depositAmount;
-            setAccountBalance();
-            depositTransactionDetails();
-        }
-        else {
-            bank.error = document.getElementById("deposit-msg");
-            bank.error.innerText = "Enter a valid number";
-        }
-    }
-}
-
-function withdraw () {
-    document.getElementById("withdraw-msg").innerText = "";
-    bank.withdrawAmount = document.getElementById("withdraw").value;
-    bank.typeOfTransaction = "debit";
-    if (event.which == 13 || event.key == 'Enter')
-    {
-        bank.withdrawAmount = parseInt(document.getElementById("withdraw").value,10);
-        if(!isNaN(bank.withdrawAmount)){
-            if (bank.withdrawAmount < bank.totalBalance)
-            {
-                bank.totalBalance -= bank.withdrawAmount;
-                setAccountBalance();
-                withdrawTransactionDetails();
-            }
-            else{
-                bank.error = document.getElementById("withdraw-msg");
-                bank.error.innerText = "Don't have sufficient amount";
-            }
-        }
-        else {
-            bank.error = document.getElementById("withdraw-msg");
-            bank.error.innerText = "Enter a valid number";
-        }
-    }
-}
-
-function depositTransactionDetails () {
-    var addTransaction = document.getElementById("transaction-table");
-
-    addTransaction.innerHTML += "<tr>" + '<th align="left" valign="middle" scope="col" id="Date">' +
-         Date() + '</th>' + '<th align="left" valign="middle" scope="col" id="Type">' + bank.typeOfTransaction + '</th>'
-        + '<th align="left" valign="middle" scope="col" id="Amount">' + bank.depositAmount + '</th>' +
-        '</tr>';
-
-    document.getElementById("deposit").value = "";
-}
-
-function withdrawTransactionDetails () {
-    var addTransaction = document.getElementById("transaction-table");
-
-    addTransaction.innerHTML += "<tr>" + '<th align="left" valign="middle" scope="col" id="Date">' +
-        Date() + '</th>' + '<th align="left" valign="middle" scope="col" id="Type">'
-        + bank.typeOfTransaction + '</th>'
-        + '<th align="left" valign="middle" scope="col" id="Amount">' + bank.withdrawAmount + '</th>' +
-        '</tr>';
-
-    document.getElementById("withdraw").value = "";
-}
-
-setAccountTitle();
-setCurrency();
-setIBAN();
-setAccountBalance();
+var month = [];
+month[0] = "January";
+month[1] = "February";
+month[2] = "March";
+month[3] = "April";
+month[4] = "May";
+month[5] = "June";
+month[6] = "July";
+month[7] = "August";
+month[8] = "September";
+month[9] = "October";
+month[10] = "November";
+month[11] = "December";
