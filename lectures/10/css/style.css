@@ -1,0 +1,43 @@
+[class*="col-"] {
+    width: 100%;
+}
+
+@media only screen and (min-width: 400px) and (max-width: 599px){
+    .col-xs-12 {width: 100%;}
+}
+
+@media only screen and (min-width: 600px) and (max-width: 799px){
+    .col-s-6 {width: 50%;}
+}
+
+@media only screen and (min-width: 800px) and (max-width: 999px){
+    .col-md-4 {width: 33.33%;}
+}
+
+@media only screen and (min-width: 1000px) and (max-width: 1199px){
+    .col-lg-3 {width: 25%;}
+}
+
+@media only screen and (min-width: 1200px) {
+    .col-xl-2 {width: 16.66%;}
+}
+
+.form-row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -5px;
+    margin-left: -5px;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.hover:hover{
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+

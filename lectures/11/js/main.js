@@ -147,7 +147,7 @@ function show() {
     ul.classList.add("list-group");
     for(var i=0; i<todos.length; i++){
         var li = document.createElement('li');
-        li.innerHTML  = '<li>' + todos[i].task + '</li>' +
+        li.innerHTML  += '<li>' + todos[i].task + '</li>' +
             '<button class="btn btn-danger" id="' + i + '">' +
             '<i class="fa fa-trash-o"></i> ' +
             '<span class="d-none d-sm-inline"> Delete </span> </button>';
@@ -184,84 +184,29 @@ show();
 //-----------  STEP - 5 ----------------------
 //============================================
 
-function strikeOut() {
-    document.getElementsByClassName("todos").style.textDecoration="line-through";
+var todo = [];
+var index
+
+function add()
+{
+    var task = document.getElementById("task").value;
+    todo.push(task);
+    index++;
+    addInList();
 }
 
-function getTodos() {
-    var todos = [];
-    var todos_str = localStorage.getItem('todo');
-    if(todos_str !== null)
-        todos = JSON.parse(todos_str);
-    return todos;
-}
-
-function add() {
-    var task = document.getElementById('task').value;
-    if(task.trim() == ''){
-        document.getElementById('message').style.display = 'block';
-        return false;
-    } else {
-        document.getElementById('message').style.display = 'none';
+function  addInList()
+{
+    var todos = document.getElementById("todos");
+    var ul = document.createElement("ul");
+    for(var i = 0;i < todo.length; i++)
+    {
+       var li = document.createElement("li");
+       li.innerHTML += "<li>" + todo[i] + "</li>";
+       ul.appendChild(li);
     }
-    var todos = getTodos();
-    todos.push({task: task, isDone: false});
-    document.getElementById('task').value = '';
-    localStorage.setItem('todo',JSON.stringify(todos));
-    show();
-    return false;
+    todos.appendChild(ul);
 }
-
-function remove() {
-    var id = this.getAttribute('id');
-    var todos = getTodos();
-    todos.splice(id,1);
-    localStorage.setItem('todo',JSON.stringify(todos));
-    show();
-    return false;
-}
-
-function show() {
-    document.getElementById('todos').innerText = '';
-    var todos = getTodos();
-    var ul = document.createElement('ul');
-    ul.classList.add("list-group");
-    for(var i=0; i<todos.length; i++){
-        var li = document.createElement('li');
-        li.innerHTML  = '<li>' + todos[i].task + '</li>' +
-            '<button class="btn btn-danger " id="' + i + '">' +
-            '<i class="fa fa-trash-o"></i> ' +
-            '<span class="d-none d-sm-inline"> Delete </span> </button>'
-            + '<button class="btn btn-primary" id="' + i + '">' +
-               '<i class="fas fa-pen-square"></i>' +
-               '<span class="d-none d-sm-inline"> Edit </span> </button>' ;
-        li.classList.add("list-group-item");
-        if(todos[i].isDone)
-            li.classList.add("done");
-
-        ul.appendChild(li);
-    }
-    document.getElementById('todos').appendChild(ul);
-    var buttons = document.getElementsByClassName('btn-danger');
-    for(var i=0; i<buttons.length; i++){
-        buttons[i].addEventListener('click',remove);
-    }
-}
-
-function isDone(e) {
-    var todos = getTodos();
-    if(todos[e.target.id].isDone) {
-        e.target.classList.add('done');
-        todos[e.target.id].isDone = false;
-    }
-    else{
-        e.target.classList.remove('done');
-        todos[e.target.id].isDone = true;
-    }
-    localStorage.setItem('todo',JSON.stringify(todos));
-    show();
-}
-show();
 
 /*
 

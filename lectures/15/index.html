@@ -13,7 +13,7 @@
         <div class="sav-acct-info">
             <div class="acct-head">Account Title:</div>
             <div class="acct-desc">
-                <span id="title"></span>
+                <input id="accname" placeholder="Deposit Amount" onkeypress="ShowUserDetails()">
             </div>
         </div>
         <div class="sav-acct-info acct-lft">
@@ -40,14 +40,14 @@
 <div class="sav-acct-info acct-lft">
     <div class="acct-head">Deposit</div>
     <div class="acct-desc">
-        <input id="deposit" placeholder="Deposit Amount" onkeyup="savingsAccount.deposit.call(this, event, this.value)">
+        <input id="deposit" placeholder="Deposit Amount" onkeypress="getDeposit()">
         <p id="deposit-msg"></p>
     </div>
 </div>
 <div class="sav-acct-info">
     <div class="acct-head">Withdraw</div>
     <div class="acct-desc">
-        <input id="withdraw" placeholder="Withdraw Amount" onkeyup="savingsAccount.withdraw.call(this, event, this.value)">
+        <input id="withdraw" placeholder="Withdraw Amount" onkeypress="withdraw()">
         <p id="withdraw-msg"></p>
     </div>
 </div>

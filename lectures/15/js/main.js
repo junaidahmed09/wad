@@ -1,81 +1,144 @@
-var savingsAccount = {
-    title: 'Muhammad Ali',
-    balance: 962155,
-    currency: 'PKRS',
-    IBAN: 'PKN1234654321',
-    deposit: function addMoney(e,amount) {
-        if(e.keyCode === 13) {
-            if (!isNaN(amount) && parseInt(amount) > 0) {
-                savingsAccount.balance += parseInt(amount);
-                document.getElementById('deposit').value = '';
-                loadAccount();
-                savingsAccount.printTransactions('Credit', amount);
-            }else {
-                document.getElementById("deposit-msg").style.color = "red";
-                document.getElementById("deposit-msg").innerText = "Enter Valid Amount";
-            }
-        }
-    },
-    withdraw: function removeMoney(e,amount) {
-        if(e.keyCode === 13) {
-            if (!isNaN(amount) && parseInt(amount) > 0) {
-                var verifyBalance = savingsAccount.balance - parseInt(amount);
-                if(verifyBalance >= 0) {
-                    savingsAccount.balance -= parseInt(amount);
-                    document.getElementById('withdraw').value = '';
-                    loadAccount();
-                    savingsAccount.printTransactions('Debit', amount);
-                }
-                else {
-                    document.getElementById("withdraw-msg").style.color = "orange";
-                    document.getElementById("withdraw-msg").innerText = "Don't have sufficient amount in account ";
-                }
-            }else {
-                document.getElementById("withdraw-msg").style.color = "red";
-                document.getElementById("withdraw-msg").innerText = "Enter Valid Amount";
-            }
-        }
-    },
-    printTransactions: function print(tType, amount){
-        var table = document.getElementById("transaction-table");
-        var row = document.createElement("tr");
-        var dateTd = document.createElement("td");
-        var d = new Date();
-        d = month[d.getMonth()] + ' '+d.getDate() +', '+d.getFullYear()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds();
-        dateTd.innerHTML = d;
-        var typeTd = document.createElement("td");
-        typeTd.innerHTML = tType;
-        var amountTd = document.createElement("td");
-        amountTd.innerHTML = amount;
-        row.appendChild(dateTd);
-        row.appendChild(typeTd);
-        row.appendChild(amountTd);
-        table.appendChild(row);
-    }
-};
 
-loadAccount();
-function loadAccount() {
-    var title = document.getElementById('title');
-    var balance = document.getElementById('balance');
-    var currency = document.getElementById('currency');
-    var IBAN = document.getElementById('IBAN');
-    title.innerHTML = savingsAccount.title;
-    balance.innerHTML = savingsAccount.balance;
-    currency.innerHTML = savingsAccount.currency;
-    IBAN.innerHTML = savingsAccount.IBAN;
+var index = 0;
+
+var bank = [{
+    title:"Junaid Ahmed"
+    ,depositAmount : 0,
+    withdrawAmount : 0,
+    typeOfTransaction : 0,
+    error : 0,
+    totalBalance : 115000,
+    IBAN:"PKN45878964421",
+    Currency:"PKR"
+},{
+    title:"Faisal Jawad"
+    ,depositAmount : 0,
+    withdrawAmount : 0,
+    typeOfTransaction : 0,
+    error : 0,
+    totalBalance : 20000,
+    IBAN:"PKN45878961234",
+    Currency:"PKR"
+},{
+    title:"Rimsha Imran"
+    ,depositAmount : 0,
+    withdrawAmount : 0,
+    typeOfTransaction : 0,
+    error : 0,
+    totalBalance : 15000,
+    IBAN:"PKN45878964123",
+    Currency:"PKR"
+},{
+    title:"Sana Anjum"
+    ,depositAmount : 0,
+    withdrawAmount : 0,
+    typeOfTransaction : 0,
+    error : 0,
+    totalBalance : 40000,
+    IBAN:"PKN45878964478",
+    Currency:"PKR"
+}];
+
+function ShowUserDetails()
+{
+    var userName = document.getElementById("accname").value;
+    var itr;
+    if (event.which === 13 || event.key === 'Enter')
+    {
+        for(itr = 0; itr < bank.length; itr++)
+        {
+            if(bank[itr].title.match(userName))
+            {
+                index = itr;
+                showAccDetails();
+            }
+        }
+    }
 }
 
-var month = [];
-month[0] = "January";
-month[1] = "February";
-month[2] = "March";
-month[3] = "April";
-month[4] = "May";
-month[5] = "June";
-month[6] = "July";
-month[7] = "August";
-month[8] = "September";
-month[9] = "October";
-month[10] = "November";
-month[11] = "December";
+function showAccDetails() {
+    var bal2 = document.getElementById("balance");
+    bal2.innerText = bank[index].totalBalance;
+    var curr2 = document.getElementById("currency");
+    curr2.innerText = bank[index].Currency;
+    var IBAN2 = document.getElementById("IBAN");
+    IBAN2.innerText = bank[index].IBAN;
+}
+
+function setAccountBalance () {
+    var bal = document.getElementById("balance");
+    bal.innerText = bank[index].totalBalance;
+}
+
+function getDeposit () {
+    document.getElementById("deposit-msg").innerText = "";
+    //bank[index].depositAmount = document.getElementById("deposit").value;
+    bank[index].typeOfTransaction = "credit";
+    if (event.which === 13 || event.key === 'Enter')
+    {
+        bank[index].depositAmount = parseInt(document.getElementById("deposit").value);
+        if(!isNaN(bank[index].depositAmount)){
+            bank[index].totalBalance += bank[index].depositAmount;
+            setAccountBalance(index);
+            depositTransactionDetails(index);
+        }
+        else {
+            bank[index].error = document.getElementById("deposit-msg");
+            bank[index].error.innerText = "Enter a valid number";
+        }
+    }
+}
+
+function withdraw () {
+    document.getElementById("withdraw-msg").innerText = "";
+    //bank[index].withdrawAmount = document.getElementById("withdraw").value;
+    bank[index].typeOfTransaction = "debit";
+    if (event.which == 13 || event.key == 'Enter')
+    {
+        bank[index].withdrawAmount = parseInt(document.getElementById("withdraw").value,10);
+        if(!isNaN(bank[index].withdrawAmount)){
+            if (bank[index].withdrawAmount < bank[index].totalBalance)
+            {
+                bank[index].totalBalance -= bank[index].withdrawAmount;
+                setAccountBalance(index);
+                withdrawTransactionDetails(index);
+            }
+            else{
+                bank[index].error = document.getElementById("withdraw-msg");
+                bank[index].error.innerText = "Don't have sufficient amount";
+            }
+        }
+        else {
+            bank[index].error = document.getElementById("withdraw-msg");
+            bank[index].error.innerText = "Enter a valid number";
+        }
+    }
+}
+
+function depositTransactionDetails () {
+    var addTransaction = document.getElementById("transaction-table");
+
+    addTransaction.innerHTML += "<tr>" + '<th align="left" valign="middle" scope="col" id="Date">' +
+        Date() + '</th>' + '<th align="left" valign="middle" scope="col" id="Type">'
+        + bank[index].title + '</th>' +
+        '<th align="left" valign="middle" scope="col" id="Type">' + bank[index].typeOfTransaction + '</th>'
+        + '<th align="left" valign="middle" scope="col" id="Amount">' + bank[index].depositAmount + '</th>' +
+        '</tr>';
+
+    document.getElementById("deposit").value = "";
+}
+
+function withdrawTransactionDetails (index) {
+    var addTransaction = document.getElementById("transaction-table");
+
+    addTransaction.innerHTML += "<tr>" + '<th align="left" valign="middle" scope="col" id="Date">' +
+        Date() + '</th>' + '<th align="left" valign="middle" scope="col" id="Type">'
+        + bank[index].title + '</th>' + '<th align="left" valign="middle" scope="col" id="Type">'
+        + bank[index].typeOfTransaction + '</th>'
+        + '<th align="left" valign="middle" scope="col" id="Amount">' + bank[index].withdrawAmount + '</th>' +
+        '</tr>';
+
+    document.getElementById("withdraw").value = "";
+}
+
+document.getElementById("balance").innerText = "NIL";
