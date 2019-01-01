@@ -11,7 +11,6 @@ function getCategory(){
 
     while($row = mysqli_fetch_assoc($getCatsResult))
     {
-        $id = $row["cat_id"];
         $title = $row["cat_title"];
         echo "<li> <a class='nav-link' href='#'>$title</a><li>";
     }
@@ -26,8 +25,35 @@ function getBrands(){
 
     while($row = mysqli_fetch_assoc($getBrandsResult))
     {
-        $id = $row["brand_id"];
         $title = $row["brand_title"];
         echo "<li> <a class='nav-link' href='#'>$title</a><li>";
+    }
+}
+
+function getCategoryAdmin(){
+
+    global $conn;
+
+    $getCatsQueryAdmin =  "select * from categories";
+    $getCatsResultAdmin = mysqli_query($conn,$getCatsQueryAdmin);
+
+    while($row = mysqli_fetch_assoc($getCatsResultAdmin))
+    {
+        $title = $row["cat_title"];
+        echo "<option>$title</option>";
+    }
+}
+
+function getBrandsAdmin(){
+
+    global $conn;
+
+    $getBrandsQueryAdmin =  "select * from brands";
+    $getBrandsResultAdmin = mysqli_query($conn,$getBrandsQueryAdmin);
+
+    while($row = mysqli_fetch_assoc($getBrandsResultAdmin))
+    {
+        $title = $row["brand_title"];
+        echo "<option>$title</option>";
     }
 }
