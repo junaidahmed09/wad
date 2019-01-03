@@ -71,7 +71,7 @@ require "server/functions.php";
                 </a>
                 <ul class="collapse show list-unstyled" id="homeSubmenu">
                     <?php getCategory() ?>
-                </ul>
+                </ul>s
             </li>
             <li class="active">
                 <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle nav-link">

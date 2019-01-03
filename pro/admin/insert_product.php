@@ -1,6 +1,26 @@
 <?php
 
 require "C:/xampp/htdocs/wad/pro/server/functions.php";
+require_once "C:/xampp/htdocs/wad/pro/server/db_connection.php";
+
+if(isset($_POST['insert_pro']))
+{
+    $product_title = $_POST['pro_title'];
+    $product_category = $_POST['pro_cat'];
+    $product_brand = $_POST['pro_brand'];
+    $product_price = $_POST['pro_price'];
+    $product_keywords = $_POST['pro_kw'];
+    $product_details = $_POST['pro_desc'];
+
+    $insert_product_query = "insert into products (product_title,product_category,product_brand,product_price,product_keywords,product_details)
+                                 values ('$product_title','$product_category','$product_brand','$product_price','$product_keywords','$product_details')";
+
+    echo $insert_product_query;
+
+    $result = mysqli_query($conn,$insert_product_query);
+
+    if(!$result){ echo "Query Not Executed!";}
+}
 
 ?>
 
@@ -22,7 +42,7 @@ require "C:/xampp/htdocs/wad/pro/server/functions.php";
 <body>
 <div class="container">
     <h1 class="text-center my-4"><i class="fas fa-plus fa-md"></i> <span class="d-none d-sm-inline"> Add New </span> Product </h1>
-    <form>
+    <form action="insert_product.php" form="post">
         <div class="row">
             <div class="d-none d-sm-block col-sm-3 col-md-4 col-lg-2 col-xl-2 mt-auto">
                 <label for="pro_title" class="float-md-right"> <span class="d-sm-none d-md-inline"> Product </span> Title:</label>
@@ -117,7 +137,7 @@ require "C:/xampp/htdocs/wad/pro/server/functions.php";
         <div class="row my-3">
             <div class="d-none d-sm-block col-sm-3 col-md-4 col-lg-2 col-xl-2 mt-auto"></div>
             <div class="col-sm-9 col-md-8 col-lg-4 col-xl-4">
-                <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-plus"></i> Insert Now </button>
+                <button type="submit" class="btn btn-primary btn-block" name="insert_pro"><i class="fas fa-plus"></i> Insert Now </button>
             </div>
         </div>
     </form>
