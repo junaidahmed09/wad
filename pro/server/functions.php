@@ -6,13 +6,15 @@ function getCategory(){
 
     global $conn;
 
+
     $getCatsQuery =  "select * from categories";
     $getCatsResult = mysqli_query($conn,$getCatsQuery);
 
     while($row = mysqli_fetch_assoc($getCatsResult))
     {
+        $cat_id = $row["cat_id"];
         $title = $row["cat_title"];
-        echo "<li> <a class='nav-link' href='#'>$title</a><li>";
+        echo "<li> <a class='nav-link' href='index.php?cat=$cat_id'>$title</a><li>";
     }
 }
 
@@ -59,9 +61,21 @@ function getBrandsAdmin(){
 }
 
 function getPro(){
-    global $con;
-    $getProQuery = "select * from products order by RAND();";
-    $getProResult = mysqli_query($con,$getProQuery);
+    global $conn;
+    $getProQuery = '';
+    if(!isset($_GET['cat']))
+    {
+        $getProQuery = "select * from products order by RAND();";
+    }
+    else{
+        $pro_cat_id = $_GET['cat'];
+        $getProQuery = "select * from products where pro_cat = '$pro_cat_id';";
+    }
+    $getProResult = mysqli_query($conn,$getProQuery);
+    $pro_count = mysqli_num_rows($getProResult);
+    if($pro_count == 0){
+        echo "<h3 class='alert-warning'> No Product in selected criteria</h3>";
+    }
     while($row = mysqli_fetch_assoc($getProResult)){
         $pro_id = $row['pro_id'];
         $pro_title = $row['pro_title'];

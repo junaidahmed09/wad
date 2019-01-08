@@ -10,6 +10,10 @@ if(isset($_GET['insert_cat'])){
     /*if($insert_cat){
         header("location: ".$_SERVER['PHP_SELF']);
     }*/
+
+
+
+    44
 }
 ?>
 <!DOCTYPE html>
