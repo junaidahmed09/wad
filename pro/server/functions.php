@@ -1,80 +1,49 @@
-get<?php
+<?php
+require_once "db_connection.php";
 
-require "db_connection.php";
-
-function getCategory(){
-
-    global $conn;
-
-
-    $getCatsQuery =  "select * from categories";
-    $getCatsResult = mysqli_query($conn,$getCatsQuery);
-
-    while($row = mysqli_fetch_assoc($getCatsResult))
-    {
-        $cat_id = $row["cat_id"];
-        $title = $row["cat_title"];
-        echo "<li> <a class='nav-link' href='index.php?cat=$cat_id'>$title</a><li>";
+function getCats(){
+    global $con;
+    $getCatsQuery = "select * from categories";
+    $getCatsResult = mysqli_query($con,$getCatsQuery);
+    while($row = mysqli_fetch_assoc($getCatsResult)){
+        $cat_id = $row['cat_id'];
+        $cat_title = $row['cat_title'];
+        echo "<li><a class='nav-link'  href='index.php?cat=$cat_id'>$cat_title</a></li>";
     }
 }
-
 function getBrands(){
-
-    global $conn;
-
-    $getBrandsQuery =  "select * from brands";
-    $getBrandsResult = mysqli_query($conn,$getBrandsQuery);
-
-    while($row = mysqli_fetch_assoc($getBrandsResult))
-    {
-        $title = $row["brand_title"];
-        echo "<li> <a class='nav-link' href='#'>$title</a><li>";
-    }
-}
-
-function getCategoryAdmin(){
-
-    global $conn;
-
-    $getCatsQueryAdmin =  "select * from categories";
-    $getCatsResultAdmin = mysqli_query($conn,$getCatsQueryAdmin);
-
-    while($row = mysqli_fetch_assoc($getCatsResultAdmin))
-    {
-        $title = $row["cat_title"];
-        echo "<option>$title</option>";
-    }
-}
-
-function getBrandsAdmin(){
-
-    global $conn;
-
-    $getBrandsQueryAdmin =  "select * from brands";
-    $getBrandsResultAdmin = mysqli_query($conn,$getBrandsQueryAdmin);
-
-    while($row = mysqli_fetch_assoc($getBrandsResultAdmin))
-    {
-        $title = $row["brand_title"];
-        echo "<option>$title</option>";
+    global $con;
+    $getBrandsQuery = "select * from brands";
+    $getBrandsResult = mysqli_query($con,$getBrandsQuery);
+    while($row = mysqli_fetch_assoc($getBrandsResult)){
+        $brand_id = $row['brand_id'];
+        $brand_title = $row['brand_title'];
+        echo "<li><a class='nav-link'  href='index.php?brand=$brand_id'>$brand_title</a></li>";
     }
 }
 
 function getPro(){
-    global $conn;
+    global $con;
     $getProQuery = '';
-    if(!isset($_GET['cat']))
-    {
+    if(!isset($_GET['cat']) && !isset($_GET['brand']) && !isset($_GET['search'])){
         $getProQuery = "select * from products order by RAND();";
     }
-    else{
+    else if(isset($_GET['cat'])){
         $pro_cat_id = $_GET['cat'];
-        $getProQuery = "select * from products where pro_cat = '$pro_cat_id';";
+        $getProQuery = "select * from products where pro_cat = '$pro_cat_id'";
     }
-    $getProResult = mysqli_query($conn,$getProQuery);
-    $pro_count = mysqli_num_rows($getProResult);
-    if($pro_count == 0){
-        echo "<h3 class='alert-warning'> No Product in selected criteria</h3>";
+    else if(isset($_GET['brand'])){
+        $pro_brand_id = $_GET['brand'];
+        $getProQuery = "select * from products where pro_brand = '$pro_brand_id'";
+    }
+    else if(isset($_GET['search'])){
+        $user_query = $_GET['search'];
+        $getProQuery = "select * from products where pro_keywords like '%$user_query%'";
+    }
+    $getProResult = mysqli_query($con,$getProQuery);
+    $count_pro = mysqli_num_rows($getProResult);
+    if($count_pro==0){
+        echo "<h4 class='alert-warning align-center my-2 p-2'> No Product found in selected criteria </h4>";
     }
     while($row = mysqli_fetch_assoc($getProResult)){
         $pro_id = $row['pro_id'];
