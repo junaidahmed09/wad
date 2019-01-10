@@ -11,9 +11,6 @@ if(isset($_GET['insert_cat'])){
         header("location: ".$_SERVER['PHP_SELF']);
     }*/
 
-
-
-    44
 }
 ?>
 <!DOCTYPE html>

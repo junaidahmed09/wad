@@ -1,4 +1,4 @@
-<?php
+get<?php
 
 require "db_connection.php";
 
