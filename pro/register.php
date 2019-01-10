@@ -106,8 +106,11 @@ require "server/functions.php";
                             <div class="input-group-text"><i class="fas fa-user"></i></div>
                         </div>
                         <input type="text" class="form-control" id="c_name" name="c_name" placeholder="Enter your name"
-                               required pattern="abc">
+                               required pattern="19[5-9][0-9]|200[0-1]">
                     </div>
+
+                    <!--0?[1-9]|1[0-9]|2[0-9]|3[0-1]--> for days
+
                 </div>
                 <div class="d-none d-sm-block col-sm-3 col-md-4 col-lg-2 col-xl-2 mt-auto">
                     <label for="c_email" class="float-md-right"> Email:</label>

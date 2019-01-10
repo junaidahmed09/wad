@@ -70,7 +70,7 @@ require "server/functions.php";
                     Categories
                 </a>
                 <ul class="collapse show list-unstyled" id="homeSubmenu">
-                    <?php getCategory() ?>
+                    <?php getCats() ?>
                 </ul>s
             </li>
             <li class="active">
