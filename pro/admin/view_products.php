@@ -1,3 +1,9 @@
+<?php
+if(!isset($_SESSION['user_email']))
+{
+    header('Location: login.php');
+}
+?>
 <div class="row">
     <div class="col-sm-12">
         <h1>Products</h1>
