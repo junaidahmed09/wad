@@ -7,9 +7,9 @@ if(isset($_POST['insert_brand'])){
     $insert_brand = "insert into brands (brand_title) 
                   VALUES ('$title_brand');";
     mysqli_query($con, $insert_brand);
-    /*if($insert_cat){
-        header("location: ".$_SERVER['PHP_SELF']);
-    }*/
+    if($insert_brand){
+        header("location: index.php?view_brands");
+    }
 }
 ?>
 <!DOCTYPE html>

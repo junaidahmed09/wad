@@ -117,10 +117,10 @@ if(!isset($_SESSION['user_email'])){
                 include('view_brands.php');
             }
             else if(isset($_GET['insert_brand'])) {
-                include('insert_brand.php');
+                include('insert_brands.php');
             }
-            else if(isset($_GET['edit_brand'])) {
-                include('edit_brand.php');
+            else if(isset($_GET['edit_brn'])) {
+                include('edit_brands.php');
             }
             else if(isset($_GET['del_brn'])) {
                 include('del_brands.php');

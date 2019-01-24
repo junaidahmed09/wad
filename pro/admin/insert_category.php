@@ -7,9 +7,9 @@ if(isset($_GET['insert_cat'])){
     $insert_category = "insert into categories (cat_title) 
                   VALUES ('$category_title');";
     $insert_cat = mysqli_query($con, $insert_category);
-    /*if($insert_cat){
-        header("location: ".$_SERVER['PHP_SELF']);
-    }*/
+    if($insert_cat){
+        header("location: index.php?view_categories");
+    }
 
 }
 ?>
