@@ -1,7 +1,7 @@
 <?php
 require "server/functions.php";
 $e = $_REQUEST["e"];
-$sel_product = "select * from products where pro_title like '%$e%'";
+$sel_product = "select * from products where pro_keywords like '%$e%'";
 $run_product  = mysqli_query($con,$sel_product);
 $count = mysqli_num_rows($run_product);
 if($count>0){
